@@ -8,6 +8,7 @@ import AlertboxService from "../../../../service/AlertboxService";
 import AuthenticationService from "../../../../service/AuthenticationService";
 import EndLoader from "../../../EndLoader";
 import ErrorContext from "../../../../context/ErrorContext";
+import {HiInformationCircle} from "react-icons/hi"
 
 function AlertType(props) {
 
@@ -18,11 +19,29 @@ function AlertType(props) {
     const [volume, setVolume] = useState(80)
     const [duration, setDuration] = useState(10)
     const [ttsVolume, setTtsVolume] = useState(80)
+    const [tooltip, setTooltip] = useState("")
     let image = useRef(null)
     let audio = useRef(null)
     let message = useRef(null)
     const navigate = useNavigate()
     
+    useEffect(()=>{
+        switch(props.type) {
+            case "Resub":
+                setTooltip("Use {user} to show username in message and {amount} to show months subscribed.")
+            break
+            case "Cheer":
+                setTooltip("Use {user} to show username in message and {amount} to show cheer amount.")
+            break
+            case "Raid":
+                setTooltip("Use {user} to show username in message and {amount} to show viewer amount.")
+            break
+            default:
+                setTooltip("Use {user} to show username in message.")
+            
+        }
+    },[props.type])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -69,7 +88,6 @@ function AlertType(props) {
       const handleTtsChange = (e) => {
         setTtsVolume(e.target.value)
       }
-      
 
     return (
       <>
@@ -79,24 +97,28 @@ function AlertType(props) {
             <div className="flex justify-start text-left">
                 <div className="w-1/3 font-medium ">
                     <div className="h-8 mb-2 pr-2 justify-end align-middle flex">
+                        <div  className="text-activeFontColor tooltip flex space-x-3">
+                            <div className="flex justify-center align-middle"><HiInformationCircle/></div>
+                            <div className="tooltiptext">{tooltip}</div>
+                        </div>
                         Message:
                     </div>
                     <div className="h-8 mb-2 pr-2 justify-end align-middle flex ">Image:</div>
                     <div className="h-8 mb-2 pr-2 justify-end align-middle flex ">Audio:</div>
-                    <div className="h-8 mb-2 pr-2 justify-end align-middle flex">Volume:</div>
-                    <div className="h-8 mb-2 pr-2 justify-end align-middle flex">Duration:</div>
-                    {props.tts !== undefined ? <div className="h-8 mb-2 pr-2 justify-end align-middle flex">TTS Volume:</div>
+                    <div className="h-8 mb-2 pr-2 justify-end align-middle flex">Volume: {volume}%</div>
+                    <div className="h-8 mb-2 pr-2 justify-end align-middle flex">Duration: {duration}s</div>
+                    {props.tts !== undefined ? <div className="h-8 mb-2 pr-2 justify-end align-middle flex">TTS Volume: {ttsVolume}%</div>
                     : <></>}
                 </div>
                 <div className="w-2/3">
                     <div className="flex justify-start w-full">
                         <div className="max-w-[56rem] w-full pb-2">
-                            <input ref={message} name="message" type="text" className="w-5/6 h-8 bg-darkGray rounded-sm border border-activeFontColor"/>
+                            <input ref={message} name="message" type="text" placeholder="Thank you dear {user}" className="w-5/6 h-8 bg-darkGray rounded-sm border border-activeFontColor p-2"/>
                         </div>
                     </div>
                     <div className="flex justify-start w-full pb-2">
                         <div className="max-w-[56rem] w-full">
-                            <input ref={image} name="image" type="file" accept="image/png" className="w-5/6 h-8 bg-darkGray rounded-sm border border-activeFontColor"/>
+                            <input ref={image} name="image" type="file" accept="image/gif" className="w-5/6 h-8 bg-darkGray rounded-sm border border-activeFontColor"/>
                         </div>
                     </div>
                     <div className="flex justify-start w-full pb-2">
@@ -117,7 +139,7 @@ function AlertType(props) {
                     {props.tts !== undefined ? <>
                         <div className="flex justify-start w-full pb-2">
                             <div className="max-w-[56rem] w-full">
-                                <input name="tts" type="range" value={duration} onChange={handleTtsChange} className="w-5/6 h-2 bg-darkGray rounded-lg appearance-none cursor-pointer range-lg"></input>
+                                <input name="tts" type="range" value={ttsVolume} onChange={handleTtsChange} className="w-5/6 h-2 bg-darkGray rounded-lg appearance-none cursor-pointer range-lg"></input>
                             </div>
                         </div>
                     </> : <></>}

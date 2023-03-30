@@ -2,8 +2,6 @@ import React, {useEffect, useState, useContext} from 'react'
 import { Outlet, useNavigate} from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import AuthenticationService from "../service/AuthenticationService";
-import EndLoader from "../component/EndLoader";
-import LoaderContext from '../context/LoaderContext';
 
 const PrivateRoute = ({ children, ...rest }) => {
     const navigate = useNavigate()

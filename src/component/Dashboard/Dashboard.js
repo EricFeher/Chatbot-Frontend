@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
 import PrivateRoute from '../../utils/PrivateRoute';
-import Test from '../Test/Test';
 import Main from './Main/Main';
 import Sidebar from './Sidebar/Sidebar';
 import Alert from './Alerts/Alert';
@@ -17,7 +16,7 @@ function Dashboard() {
         <Routes>
             <Route element={<PrivateRoute/>}>
                 <Route path='/' element={<Main />}/>
-                <Route path='/dashboard' element={<Test />}/>
+                <Route path='/dashboard' element={<Main />}/>
                 <Route path='/alertbox/*' element={<Alert />}/>
                 <Route path='/commands' element={<Commands />}/>
                 <Route path='*' element={<PageNotFound />}/>

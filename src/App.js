@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './component/Navigation/Navbar';
 import Home from './component/Home/Home';
 import NotFound from './component/NotFound';
-import Test from './component/Test/Test';
 import Authentication from './component/Auth/Authentication';
 import {useRef, useState} from "react";
 import LoaderContext from "./context/LoaderContext";
@@ -13,6 +12,7 @@ import NavContext from './context/NavContext';
 import PrivateRoute from "./utils/PrivateRoute";
 import PublicRoute from './utils/PublicRoute';
 import Dashboard from './component/Dashboard/Dashboard';
+import Alerts from './component/Alerts/Alerts';
 import { useEffect } from 'react';
 import ErrorContext from './context/ErrorContext';
 import ErrorModal from './component/Modal/ErrorModal';
@@ -21,6 +21,7 @@ function App() {
   let [loader,setLoader] = useState(true)
   let [auth,setAuth] = useState(!!localStorage.getItem("access_token"))
   let [isError, setIsError] = useState(false);
+  let [navbarVisible, setNavbarVisible] = useState(true);
   let [error, setError] = useState("This is the default error message");
 
   
@@ -50,7 +51,7 @@ function App() {
   return (
     <>
     <BrowserRouter> 
-    <NavContext.Provider value={{showSidebar,setShowSidebar,isLoginOpen,setLoginOpen}}>
+    <NavContext.Provider value={{showSidebar,setShowSidebar,isLoginOpen,setLoginOpen, navbarVisible, setNavbarVisible}}>
       <LoaderContext.Provider value={{loader,setLoader,loaderStyle,load}}>
         <AuthContext.Provider value={{auth,setAuth}}>
           <ErrorContext.Provider value={{error,isError,setError,setIsError}}>
@@ -63,18 +64,18 @@ function App() {
             <Loader/>
           </div>
 
-          <div className="w-full h-full overflow-hidden scrollbar bg-lightGray">
-            {auth ? <Navbar/> : <Login/>}
+          <div className="w-full h-full overflow-hidden scrollbar">
+            {auth ? (navbarVisible ? <Navbar/> : <></>) : <Login/>}
             {isError ? <ErrorModal/> : <></>}
             <Routes>
               <Route element={<PublicRoute/>}>
                 <Route path='/' element={<Home />} />
                 <Route path='/auth' element={<Authentication />} />
                 <Route path='/login' element={<Login />} />
+                <Route path='/alerts/*' element={<Alerts />} />
               </Route>
               <Route element={<PrivateRoute/>}>
                 <Route path='/dashboard/*' element={<Dashboard />}/>
-                <Route path='/test' element={<Test />}/>
               </Route>
               <Route path='*' element={<NotFound />} />
             </Routes>

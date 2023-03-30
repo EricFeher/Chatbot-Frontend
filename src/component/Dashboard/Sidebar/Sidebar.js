@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {AiOutlineHome} from 'react-icons/ai'
-import {BiCategory, BiMessageRounded, BiLineChart} from 'react-icons/bi'
+import {BiCategory, BiMessageRounded} from 'react-icons/bi'
 import { useNavigate } from 'react-router-dom'
 import LoaderContext from '../../../context/LoaderContext'
 
@@ -29,7 +29,7 @@ function Sidebar() {
                     <div>
                         <hr className='w-10 border-1 rounded border-lightGray'/>
                     </div>
-                    <div className="flex justify-center text-center items-center  pb-2 rounded-full w-10 h-10 hover:bg-lightGray hover:border-2 hover:border-activeFontColor cursor-pointer">
+                    <div onClick={() => setPage("")} className="flex justify-center text-center items-center  pb-2 rounded-full w-10 h-10 hover:bg-lightGray hover:border-2 hover:border-activeFontColor cursor-pointer">
                         <AiOutlineHome className=' text-2xl text-activeFontColor'/>
                     </div>
                     <div onClick={() => setPage("alertbox")} className="flex justify-center text-center items-center pb-2 rounded-full w-10 h-10 hover:bg-lightGray hover:border-2 hover:border-activeFontColor cursor-pointer">
@@ -37,9 +37,6 @@ function Sidebar() {
                     </div>
                     <div onClick={() => setPage("commands")} className="flex justify-center text-center items-center pb-2 rounded-full w-10 h-10 hover:bg-lightGray hover:border-2 hover:border-activeFontColor cursor-pointer">
                         <BiMessageRounded className=' text-2xl text-activeFontColor'/>
-                    </div>
-                    <div className="flex justify-center text-center items-center pb-2 rounded-full w-10 h-10 hover:bg-lightGray hover:border-2 hover:border-activeFontColor cursor-pointer">
-                        <BiLineChart className=' text-2xl text-activeFontColor'/>
                     </div>
                     <div>
                         <hr className='w-10 border-1 rounded border-lightGray'/>

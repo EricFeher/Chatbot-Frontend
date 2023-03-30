@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import EndLoader from "../EndLoader";
 import NavContext from "../../context/NavContext";
+import BasicFunctions from "../../utils/BasicFunctions";
 
 function AlertType() {
 
@@ -34,7 +35,8 @@ function AlertType() {
     }, [])
 
     const connectToWebSocket = async () => {
-        const newSocket = await new WebSocket(`ws://localhost:8000`);
+        let url = BasicFunctions.getCorrectWebsocketUrl()
+        const newSocket = await new WebSocket(url);
 
         newSocket.onopen = () => {
             console.log('WebSocket connected');
@@ -71,7 +73,7 @@ function AlertType() {
 
     const sayTtsForChannelPoints = (data) =>{
         let message = `${data.event.user_name} said: ${data.event.user_input}`
-        let url = `${process.env.REACT_APP_BACKEND_LOCAL_URI}/alertBoxTts?text=${encodeURIComponent(message)}`
+        let url = `${BasicFunctions.getCorrectBackendUrl()}/alertBoxTts?text=${encodeURIComponent(message)}`
          
         let ttsAudio = getSoundData(url, data.data.ttsVolume, "tts")
 
@@ -86,7 +88,7 @@ function AlertType() {
     const showAlertBox = (data) => {
         setImageSrc(data.data.imageUrl);
         let soundAudio = getSoundData(data.data.audioUrl, data.data.volume , "sound")
-        let url = `${process.env.REACT_APP_BACKEND_LOCAL_URI}/alertBoxTts?text=${encodeURIComponent(data.event.message)}`
+        let url = `${BasicFunctions.getCorrectBackendUrl()}/alertBoxTts?text=${encodeURIComponent(data.event.message)}`
         let ttsAudio = data.data.ttsVolume ? getSoundData(url, data.data.ttsVolume || 0, "tts") : new Audio('')
         let soundEnded = false
         soundAudio.onended = () => {

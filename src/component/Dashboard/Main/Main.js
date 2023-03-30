@@ -3,10 +3,12 @@ import { useEffect } from "react";
 import EndLoader from "../../EndLoader";
 
 function Main() {
-  const [channel, setChannel] = useState(localStorage.getItem('username').toLowerCase())
+  const [channel, setChannel] = useState("")
   const [siteUrl, setSiteUrl] = useState("")
 
   useEffect(()=>{
+    let channel = localStorage.getItem('username') || ""
+    setChannel(channel.toLowerCase())
     if(window.location.href.includes("localhost")){
       setSiteUrl("localhost")
     } else{

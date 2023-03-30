@@ -9,10 +9,12 @@ import AuthenticationService from "../../../../service/AuthenticationService";
 import EndLoader from "../../../EndLoader";
 import ErrorContext from "../../../../context/ErrorContext";
 import {HiInformationCircle} from "react-icons/hi"
+import BasicFunctions from "../../../../utils/BasicFunctions";
+import {ClipLoader} from "react-spinners"
 
 function AlertType(props) {
 
-    const followURI = `${process.env.REACT_APP_BACKEND_LOCAL_URI}/editFollow`
+    const followURI = `${BasicFunctions.getCorrectBackendUrl()}/editFollow`
     const authContext = useContext(AuthContext)
     const errorContext = useContext(ErrorContext)
 
@@ -20,6 +22,7 @@ function AlertType(props) {
     const [duration, setDuration] = useState(10)
     const [ttsVolume, setTtsVolume] = useState(80)
     const [tooltip, setTooltip] = useState("")
+    const [saving, setSaving] = useState(false)
     let image = useRef(null)
     let audio = useRef(null)
     let message = useRef(null)
@@ -44,7 +47,7 @@ function AlertType(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setSaving(true)
         const message = e.target[0].value
         const image = e.target[1].files[0]
         const audio = e.target[2].files[0]
@@ -65,8 +68,13 @@ function AlertType(props) {
         if(res.data.status !== 200){
             errorContext.setError(res.data.message)
             errorContext.setIsError(true)
-            return
         }
+        else{
+            errorContext.setError("Alertbox successfully updated!")
+            errorContext.setIsError(true)
+        }
+        setSaving(false)
+        return    
     }
 
       const setDefault = () => {
@@ -145,9 +153,9 @@ function AlertType(props) {
                     </> : <></>}
                 </div>
             </div>
-            <div className="flex justify-center w-full">
-                <div className="w-16 h-8 hover:bg-darkGray cursor-pointer border-2 rounded-md border-darkGray">
-                    <input className="cursor-pointer" type="submit" value="Save"/>
+            <div className="flex justify-center align-middle w-full">
+                <div className={` ${saving ? " " : "cursor-pointer"} w-16 h-10 hover:bg-darkGray border-2 rounded-md border-darkGray flex justify-center align-middle`}>
+                    {saving ?<ClipLoader className=""/> : <input className="cursor-pointer" type="submit" value="Save"/>}
                 </div>
             </div>
         </form>

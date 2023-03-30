@@ -1,12 +1,18 @@
 import React, {useContext, useState} from 'react'
+import { useEffect } from 'react';
 import { MdClose } from 'react-icons/md'
 import NavContext from '../context/NavContext';
+import BasicFunctions from '../utils/BasicFunctions';
 
 const Login = () => {
     const nav = useContext(NavContext);
 
     let [twitchauth, setTwitchauth] = useState(process.env.REACT_APP_TWITCH_AUTH_LOCAL)
-    let [twitchauthG, setTwitchauthG] = useState(process.env.REACT_APP_TWITCH_AUTH_GLOBAL)
+    
+    useEffect(()=>{
+        setTwitchauth(BasicFunctions.getCorrectAuthUrl())
+      },[])
+
 
     return (
         <>{nav.isLoginOpen ? 
@@ -24,13 +30,7 @@ const Login = () => {
                             <a href={twitchauth}>
                                 <div className='flex justify-center space-x-3 text items-center w-36 h-8 rounded-xl bg-tpurple cursor-pointer hover:bg-tpurpleActive'>
                                     <img src="/assets/images/twitchlogo.png" alt="Twitch" className='w-6 h-6'/>
-                                    <span>TwitchL</span>
-                                </div>
-                            </a>
-                            <a href={twitchauthG}>
-                                <div className='flex justify-center space-x-3 text items-center w-36 h-8 rounded-xl bg-tpurple cursor-pointer hover:bg-tpurpleActive'>
-                                    <img src="/assets/images/twitchlogo.png" alt="Twitch" className='w-6 h-6'/>
-                                    <span>TwitchG</span>
+                                    <span>Twitch</span>
                                 </div>
                             </a>
                         </div>

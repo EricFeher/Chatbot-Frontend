@@ -5,6 +5,7 @@ import AlertType from './Types/AlertType';
 import LoaderContext from '../../../context/LoaderContext';
 import { useContext, useEffect, useState } from 'react';
 import ChannelPointType from './Types/ChannelPointTpye';
+import BasicFunctions from '../../../utils/BasicFunctions';
 
 
 function Alert() {
@@ -30,11 +31,11 @@ function Alert() {
           <div className="w-full h-12 flex justify-center items-center">
             <div className="flex justify-left p-2 items-center w-[50rem] h-8 bg-darkGray rounded-l-lg">
               <div className='blur-sm text-activeFontColor text-clip overflow-hidden scrollbar'>
-              {`${process.env.REACT_APP_FRONTEND_URI}/alerts/${localStorage.getItem("id")}`}
+              {`${BasicFunctions.getCorrectFrontendUrl()}/alerts/${localStorage.getItem("id")}`}
               </div>
               
             </div>
-            <div onClick={() => {navigator.clipboard.writeText(`${process.env.REACT_APP_FRONTEND_URI}/alerts/${localStorage.getItem("id")}`)}}
+            <div onClick={() => {navigator.clipboard.writeText(`${BasicFunctions.getCorrectFrontendUrl()}/alerts/${localStorage.getItem("id")}`)}}
              className="flex justify-center items-center w-[6rem] h-8 bg-activeFontColor rounded-r-lg active:bg-passiveFontColor cursor-pointer">
               <BiCopyAlt/>
             </div>

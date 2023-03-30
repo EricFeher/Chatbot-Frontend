@@ -1,9 +1,10 @@
 import axios from "axios"
+import BasicFunctions from "../utils/BasicFunctions";
 
 const getCommands = async (data) => {
 
     try {
-        const res = await axios.post(`${process.env.REACT_APP_BACKEND_LOCAL_URI}/commands`, data);
+        const res = await axios.post(`${BasicFunctions.getCorrectBackendUrl()}/commands`, data);
         return res;
       } catch (err) {
         console.error(err);
@@ -12,7 +13,7 @@ const getCommands = async (data) => {
 
 const setCommand = async (data) => {
     try {
-      const res = await axios.post(`${process.env.REACT_APP_BACKEND_LOCAL_URI}/modifyCommand`, data);
+      const res = await axios.post(`${BasicFunctions.getCorrectBackendUrl()}/modifyCommand`, data);
       return res;
     } catch (err) {
       console.error(err);
@@ -21,7 +22,7 @@ const setCommand = async (data) => {
 
 const deleteCommand = async (data) => {
   try {
-    const res = await axios.post(`${process.env.REACT_APP_BACKEND_LOCAL_URI}/deleteCommand`, data);
+    const res = await axios.post(`${BasicFunctions.getCorrectBackendUrl()}/deleteCommand`, data);
     return res;
   } catch (err) {
     console.error(err);

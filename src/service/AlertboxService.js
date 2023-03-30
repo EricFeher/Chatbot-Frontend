@@ -1,4 +1,5 @@
 import axios from "axios"
+import BasicFunctions from "../utils/BasicFunctions";
 
 const alertboxFollowChange = async (data) => {
     const headers = {
@@ -6,7 +7,7 @@ const alertboxFollowChange = async (data) => {
       }
 
     try {
-        const res = await axios.post(`${process.env.REACT_APP_BACKEND_LOCAL_URI}/editFollow`, data, headers);
+        const res = await axios.post(`${BasicFunctions.getCorrectBackendUrl()}/editFollow`, data, headers);
         return res
       } catch (err) {
         console.error(err);

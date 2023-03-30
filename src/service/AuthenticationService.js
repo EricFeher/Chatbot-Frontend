@@ -1,4 +1,5 @@
 import axios from "axios"
+import BasicFunctions from "../utils/BasicFunctions"
 
 const login = async (code) => {
     let response
@@ -6,7 +7,7 @@ const login = async (code) => {
         code: code,
     }
     try{
-        response = await axios.post(process.env.REACT_APP_BACKEND_LOCAL_URI+"/auth",{data},{withCredentials: true})
+        response = await axios.post(BasicFunctions.getCorrectBackendUrl()+"/auth",{data},{withCredentials: true})
     }catch(error){
         console.log(error.response)
         return
@@ -19,7 +20,7 @@ const login = async (code) => {
 }
 
 const logout = async (navigate, setAuth) => {
-    let response = await axios.post(process.env.REACT_APP_BACKEND_LOCAL_URI+"/deleteSession",null, {withCredentials:true })
+    let response = await axios.post(BasicFunctions.getCorrectBackendUrl()+"/deleteSession",null, {withCredentials:true })
     console.log(response);
     localStorage.removeItem("access_token")
     localStorage.removeItem("username")
@@ -32,7 +33,7 @@ const logout = async (navigate, setAuth) => {
 const isAccessable = async (navigate, setAuth) => {
     let accessToken = localStorage.getItem("access_token")
     try{
-        let response = await axios.post(process.env.REACT_APP_BACKEND_LOCAL_URI+"/validateSession", {accessToken},{withCredentials: true})
+        let response = await axios.post(BasicFunctions.getCorrectBackendUrl()+"/validateSession", {accessToken},{withCredentials: true})
         localStorage.setItem("access_token", response.data.access_token)
         return true;
     }catch (error){
